@@ -9,11 +9,15 @@
     "canim": "./index.js"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "node index.js",
-    "screensaver": "node index.js screensaver",
-    "ss": "node index.js screensaver",
-    "clear": "node index.js screensaver"
+    "start": "node index.js matrix",
+    "help": "node index.js help",
+    "matrix": "node index.js matrix",
+    "starfield": "node index.js starfield",
+    "plasma": "node index.js plasma",
+    "dna": "node index.js dna",
+    "cube": "node index.js cube",
+    "fire": "node index.js fire",
+    "login": "node index.js login"
   },
   "keywords": ["cli", "animation", "terminal", "ascii-art", "screensaver"],
   "author": "",

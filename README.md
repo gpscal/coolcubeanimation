@@ -1,18 +1,18 @@
-# Cool Animation CLI
+# 🎨 Cool Terminal Animations
 
-A beautiful CLI animation similar to the cursor-cli login screen, featuring ASCII art and an interactive login prompt. Perfect as a screensaver or terminal clear command!
+A collection of stunning terminal screensaver animations including Matrix rain, starfield, plasma waves, DNA helix, 3D rotating cube, fire effects, and the original Cursor-agent style login screen!
 
-## Features
+## ✨ Features
 
-- 🎨 Beautiful ASCII art animation
-- ✨ Blinking "Press any key..." prompt
-- 🎯 Centered layout that adapts to terminal size
-- 🌈 Colorful terminal output using Chalk
-- ⌨️ Interactive keypress detection
-- 💾 Screensaver mode - clears screen and shows animation
-- 🚀 Installable as global CLI command
+- **6 Mesmerizing Screensaver Animations**: Matrix, Starfield, Plasma, DNA Helix, 3D Cube, and Fire
+- **Cursor-Agent Style Login**: Original animated login screen
+- **Full Color Support**: Rich terminal colors using chalk
+- **Smooth 30 FPS**: Butter-smooth animations
+- **Responsive**: Adapts to your terminal size
+- **Easy Exit**: Press any key to exit
+- **Global CLI**: Install globally for quick access
 
-## Installation
+## 🚀 Installation
 
 ```bash
 npm install
@@ -32,74 +32,218 @@ Or if published:
 npm install -g cool-animation-cli
 ```
 
-## Usage
+## 🎬 Available Animations
 
-### Login Mode (Default)
-Shows animation with sign-in simulation:
+### 🟢 Matrix Rain
+Classic Matrix-style falling characters with Japanese katakana and alphanumeric characters. Green cascading text creates that iconic hacker aesthetic!
 
 ```bash
+npm run matrix
+# or
+node index.js matrix
+# or (if installed globally)
+coolanim matrix
+```
+
+### ⭐ Starfield
+Fly through space at warp speed! Watch stars rush past you in this immersive 3D starfield effect with perspective projection.
+
+```bash
+npm run starfield
+# or
+node index.js starfield
+```
+
+### 🌊 Plasma Wave
+Mesmerizing animated plasma waves with flowing colors. Hypnotic sine and cosine waves create beautiful interference patterns.
+
+```bash
+npm run plasma
+# or
+node index.js plasma
+```
+
+### 🧬 DNA Helix
+Watch a rotating DNA double helix structure spin endlessly. Cyan and magenta strands connected by base pairs.
+
+```bash
+npm run dna
+# or
+node index.js dna
+```
+
+### 📦 3D Rotating Cube
+A wireframe cube spinning gracefully in 3D space with proper perspective projection. Math made beautiful!
+
+```bash
+npm run cube
+# or
+node index.js cube
+```
+
+### 🔥 Fire Effect
+Realistic fire simulation with heat propagation. Watch flames dance and flicker using cellular automata.
+
+```bash
+npm run fire
+# or
+node index.js fire
+```
+
+### 🚪 Cursor-Agent Login Screen
+The original cursor-agent style login animation with ASCII art and blinking prompt.
+
+```bash
+npm run login
+# or
+node index.js login
+```
+
+## 📖 Usage
+
+### Quick Start
+
+```bash
+# Default animation (Matrix)
 npm start
-# or
-node index.js
-# or (if installed globally)
-coolanim
+
+# Run any specific animation
+node index.js [animation-name]
+
+# Using npm scripts (easier!)
+npm run [animation-name]
+
+# Show help and list all animations
+npm run help
+node index.js help
 ```
 
-### Screensaver Mode
-Clears screen and shows animation, exits on any keypress:
+### All Commands
 
+| Command | Description |
+|---------|-------------|
+| `npm run matrix` | Matrix rain animation |
+| `npm run starfield` | Starfield warp speed |
+| `npm run plasma` | Plasma wave effect |
+| `npm run dna` | DNA helix rotation |
+| `npm run cube` | 3D rotating cube |
+| `npm run fire` | Fire simulation |
+| `npm run login` | Cursor-agent login screen |
+| `npm run help` | Show all available options |
+
+## 🎮 Controls
+
+- **Any Key**: Exit animation
+- **Ctrl+C**: Force quit
+
+## 🛠️ Technical Details
+
+- Built with Node.js ES modules (requires Node 18+)
+- Uses chalk 5.x for terminal colors
+- 30 FPS animation loop with setInterval
+- Responsive to terminal size via `process.stdout.columns/rows`
+- Clean exit handling with proper cursor restoration
+- Raw mode terminal input for instant keypress detection
+
+### Animation Algorithms
+
+- **Matrix**: Random character drops with variable speeds and brightness falloff
+- **Starfield**: 3D point projection with Z-depth and perspective scaling
+- **Plasma**: Multi-layered sine/cosine waves with time animation
+- **DNA**: Parametric helix equations with phase offset
+- **Cube**: 3D rotation matrices (X, Y, Z) with perspective projection
+- **Fire**: Cellular automata with heat diffusion and decay
+
+## 🌟 Quick Access Aliases
+
+After installing globally, create shell aliases for even quicker access:
+
+### Bash/Zsh (`~/.bashrc` or `~/.zshrc`)
 ```bash
-npm run screensaver
-# or
-npm run ss
-# or
-npm run clear
-# or
-node index.js screensaver
-# or (if installed globally)
-coolanim screensaver
-# or
-canim ss
+alias matrix='coolanim matrix'
+alias starfield='coolanim starfield'
+alias plasma='coolanim plasma'
+alias fire='coolanim fire'
+alias ss='coolanim matrix'  # screensaver
 ```
 
-## Modes
-
-- **`login`** (default) - Shows animation with sign-in simulation
-- **`screensaver`** / **`ss`** / **`clear`** - Screensaver mode, clears screen and exits on keypress
-
-## How it works
-
-1. The animation displays ASCII art on the left side of the terminal
-2. A prompt appears on the right side
-3. The "Press any key..." text blinks every 500ms
-4. Press any key to continue (or trigger sign-in in login mode)
-
-## Quick Access
-
-After installing globally, you can create aliases in your shell:
-
-**Bash/Zsh** (`~/.bashrc` or `~/.zshrc`):
-```bash
-alias clear='coolanim screensaver'
-alias ss='coolanim screensaver'
-```
-
-**PowerShell** (`$PROFILE`):
+### PowerShell (`$PROFILE`)
 ```powershell
-function Clear-Screen { coolanim screensaver }
-Set-Alias -Name ss -Value Clear-Screen
+function Start-Matrix { coolanim matrix }
+function Start-Starfield { coolanim starfield }
+function Start-Plasma { coolanim plasma }
+function Start-Fire { coolanim fire }
+
+Set-Alias -Name matrix -Value Start-Matrix
+Set-Alias -Name starfield -Value Start-Starfield
+Set-Alias -Name plasma -Value Start-Plasma
+Set-Alias -Name fire -Value Start-Fire
 ```
 
-## Customization
+## 🎨 Customization
 
-You can customize the ASCII art by modifying the `ASCII_ART` constant in `index.js`. You can also adjust colors, timing, and layout by editing the `renderScreen` function.
+Each animation class can be easily modified in `index.js`:
 
-## Requirements
+- **Colors**: Edit the chalk color calls in each render method
+- **Speed**: Adjust FPS in the animation loop (currently 30 FPS)
+- **Characters**: Modify character sets (e.g., `chars` in MatrixRain)
+- **Size**: Adjust size parameters in each animation constructor
+- **Effects**: Tweak mathematical formulas for different visual effects
+
+## 📋 Requirements
 
 - Node.js 18+ (for ES modules support)
-- A terminal that supports ANSI color codes
+- A terminal that supports ANSI color codes and UTF-8
+- chalk 5.3.0 (installed via npm)
 
-## License
+## 🐛 Troubleshooting
+
+**Animation looks weird or has artifacts?**
+- Try resizing your terminal
+- Ensure your terminal supports 256 colors
+- Some terminals may not support all Unicode characters
+
+**Animation is too slow?**
+- Reduce FPS by changing the interval in screensaverMode
+- Try a simpler animation like DNA or Matrix
+
+**Can't exit with a key?**
+- Try Ctrl+C as a fallback
+- Ensure your terminal is in focus
+
+## 📝 Examples
+
+```bash
+# Quick matrix screensaver
+npm start
+
+# Try them all!
+npm run matrix
+npm run starfield
+npm run plasma
+npm run dna
+npm run cube
+npm run fire
+
+# Classic login screen
+npm run login
+
+# See what's available
+npm run help
+```
+
+## 🤝 Contributing
+
+Feel free to add your own animations! Each animation is a class with:
+- `constructor(width, height)`: Initialize the animation
+- `render()`: Render one frame to the terminal
+
+## 📄 License
 
 MIT
 
+---
+
+Enjoy your terminal screensavers! 🎉✨
+
+Press any key to exit. Have fun! 🚀
