@@ -4,13 +4,40 @@ A collection of stunning terminal screensaver animations including Matrix rain, 
 
 ## ✨ Features
 
-- **6 Mesmerizing Screensaver Animations**: Matrix, Starfield, Plasma, DNA Helix, 3D Cube, and Fire
+- **7 Mesmerizing Terminal Screensaver Animations**: Matrix, Starfield, Plasma, DNA Helix, 3D Cube, Fire, and Plane
+- **✈️ Plane Screensaver**: Aerospace.png image converted to ASCII art with Matrix-style background, moving stars, and clouds
 - **Cursor-Agent Style Login**: Original animated login screen
+- **🎓 Interactive Tutorial**: Step-by-step guided coding lesson for learning how Matrix rain works!
+- **📚 Detailed Documentation**: Kid-friendly tutorial explaining every concept
 - **Full Color Support**: Rich terminal colors using chalk
 - **Smooth 30 FPS**: Butter-smooth animations
-- **Responsive**: Adapts to your terminal size
+- **Responsive**: Adapts to your terminal/browser size
 - **Easy Exit**: Press any key to exit
 - **Global CLI**: Install globally for quick access
+
+## 🎓 Learn to Code Matrix Rain!
+
+### Interactive Tutorial (Recommended for Beginners!)
+
+Want to learn how the Matrix rain animation works? Try our interactive step-by-step tutorial! It's like having a personal coding tutor guide you through building the animation line by line.
+
+```bash
+npm run tutorial
+# or
+npm run learn
+# or
+node interactive_matrix_tutorial.js
+```
+
+The tutorial will:
+- ✅ Guide you through each step with clear explanations
+- ✅ Ask you to fill in code and check your understanding
+- ✅ Show you how each part works
+- ✅ Run your completed animation at the end!
+
+### Written Tutorial
+
+For a detailed written guide, check out [`MATRIX_RAIN_TUTORIAL.md`](./MATRIX_RAIN_TUTORIAL.md) - a comprehensive kid-friendly tutorial explaining every concept!
 
 ## 🚀 Installation
 
@@ -99,6 +126,19 @@ npm run login
 node index.js login
 ```
 
+### ✈️ Plane Screensaver (CLI)
+A beautiful CLI screensaver featuring the Aerospace.png plane converted to ASCII art, flying in the center with a Matrix-style background, moving stars, and clouds. The plane image is automatically converted to ASCII and displayed with colors!
+
+```bash
+npm run screensaver
+# or
+npm run plane
+# or
+node index.js plane
+```
+
+The plane will appear in the center with subtle movement, surrounded by Matrix-style falling characters, stars, and clouds.
+
 ## 📖 Usage
 
 ### Quick Start
@@ -129,6 +169,8 @@ node index.js help
 | `npm run cube` | 3D rotating cube |
 | `npm run fire` | Fire simulation |
 | `npm run login` | Cursor-agent login screen |
+| `npm run screensaver` | CLI plane screensaver (Aerospace.png + Matrix + Space + Clouds) |
+| `npm run plane` | Same as screensaver |
 | `npm run help` | Show all available options |
 
 ## 🎮 Controls

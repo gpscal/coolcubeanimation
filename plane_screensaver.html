@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plane Screensaver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            overflow: hidden;
+            background: #000;
+            font-family: 'Courier New', monospace;
+        }
+        
+        canvas {
+            display: block;
+            cursor: none;
+        }
+        
+        .instructions {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #0f0;
+            font-size: 14px;
+            z-index: 1000;
+            text-shadow: 0 0 10px #0f0;
+            opacity: 0.7;
+            animation: fadeOut 5s forwards;
+        }
+        
+        @keyframes fadeOut {
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instructions">
+        Click anywhere or press ESC to exit
+    </div>
+    <canvas id="canvas"></canvas>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas to fullscreen
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Load plane image
+        const planeImg = new Image();
+        planeImg.src = 'Aerospace.png';
+        
+        // Matrix rain characters
+        const matrixChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const matrixDrops = [];
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        
+        // Initialize matrix drops
+        for (let i = 0; i < columns; i++) {
+            matrixDrops[i] = {
+                y: Math.random() * -canvas.height,
+                speed: Math.random() * 2 + 1,
+                length: Math.floor(Math.random() * 20) + 10
+            };
+        }
+        
+        // Stars for space background
+        const stars = [];
+        const numStars = 200;
+        for (let i = 0; i < numStars; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                z: Math.random() * 1000,
+                size: Math.random() * 2 + 0.5,
+                speed: Math.random() * 0.5 + 0.1
+            });
+        }
+        
+        // Clouds
+        const clouds = [];
+        const numClouds = 8;
+        for (let i = 0; i < numClouds; i++) {
+            clouds.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                width: Math.random() * 200 + 100,
+                height: Math.random() * 80 + 40,
+                speed: Math.random() * 0.3 + 0.1,
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+        
+        // Plane properties
+        let planeX = canvas.width / 2;
+        let planeY = canvas.height / 2;
+        let planeAngle = 0;
+        let planeScale = 1;
+        let planeRotation = 0;
+        let planeOffsetX = 0;
+        let planeOffsetY = 0;
+        let time = 0;
+        
+        // Animation loop
+        function animate() {
+            time += 0.016; // ~60fps
+            
+            // Clear canvas with dark background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw stars (space background)
+            ctx.fillStyle = '#ffffff';
+            stars.forEach(star => {
+                star.z -= star.speed;
+                if (star.z <= 0) {
+                    star.z = 1000;
+                    star.x = Math.random() * canvas.width;
+                    star.y = Math.random() * canvas.height;
+                }
+                
+                const x = star.x + (star.x - canvas.width / 2) * (star.z / 1000);
+                const y = star.y + (star.y - canvas.height / 2) * (star.z / 1000);
+                const size = star.size * (1 - star.z / 1000);
+                
+                if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+                    ctx.globalAlpha = 1 - star.z / 1000;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+            ctx.globalAlpha = 1;
+            
+            // Draw clouds
+            clouds.forEach(cloud => {
+                cloud.x -= cloud.speed;
+                if (cloud.x + cloud.width < 0) {
+                    cloud.x = canvas.width;
+                    cloud.y = Math.random() * canvas.height;
+                }
+                
+                ctx.globalAlpha = cloud.opacity;
+                ctx.fillStyle = '#4a5568';
+                ctx.beginPath();
+                // Draw cloud as multiple circles
+                const numCircles = 5;
+                for (let i = 0; i < numCircles; i++) {
+                    const offsetX = (i - 2) * (cloud.width / numCircles);
+                    const offsetY = Math.sin(i) * 10;
+                    ctx.arc(
+                        cloud.x + cloud.width / 2 + offsetX,
+                        cloud.y + cloud.height / 2 + offsetY,
+                        cloud.height / 2,
+                        0,
+                        Math.PI * 2
+                    );
+                }
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            
+            // Draw Matrix rain (more subtle, lower opacity)
+            ctx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < matrixDrops.length; i++) {
+                const drop = matrixDrops[i];
+                const x = i * fontSize;
+                
+                // Skip columns near the center to keep plane visible
+                const centerX = canvas.width / 2;
+                const skipRadius = 150;
+                if (Math.abs(x - centerX) < skipRadius) {
+                    drop.y += drop.speed;
+                    if (drop.y > canvas.height + drop.length * fontSize) {
+                        drop.y = Math.random() * -canvas.height;
+                        drop.speed = Math.random() * 2 + 1;
+                    }
+                    continue;
+                }
+                
+                // Draw each character in the drop
+                for (let j = 0; j < drop.length; j++) {
+                    const y = drop.y - j * fontSize;
+                    if (y > 0 && y < canvas.height) {
+                        const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                        const brightness = 1 - (j / drop.length);
+                        
+                        // Lower opacity for subtle effect
+                        ctx.fillStyle = `rgba(0, ${Math.floor(255 * brightness)}, 0, ${brightness * 0.3})`;
+                        ctx.fillText(char, x, y);
+                    }
+                }
+                
+                drop.y += drop.speed;
+                
+                // Reset drop when it goes off screen
+                if (drop.y > canvas.height + drop.length * fontSize) {
+                    drop.y = Math.random() * -canvas.height;
+                    drop.speed = Math.random() * 2 + 1;
+                }
+            }
+            
+            // Update plane position (subtle figure-8 or circular motion)
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radiusX = 30;
+            const radiusY = 20;
+            
+            planeOffsetX = Math.sin(time * 0.5) * radiusX;
+            planeOffsetY = Math.sin(time * 1) * radiusY;
+            planeX = centerX + planeOffsetX;
+            planeY = centerY + planeOffsetY;
+            
+            // Subtle rotation
+            planeRotation = Math.sin(time * 0.3) * 0.1;
+            
+            // Subtle scale pulsing
+            planeScale = 1 + Math.sin(time * 0.8) * 0.05;
+            
+            // Draw plane when image is loaded
+            if (planeImg.complete && planeImg.naturalWidth > 0) {
+                ctx.save();
+                
+                // Move to plane center
+                ctx.translate(planeX, planeY);
+                
+                // Apply rotation
+                ctx.rotate(planeRotation);
+                
+                // Apply scale
+                ctx.scale(planeScale, planeScale);
+                
+                // Draw plane (centered) with better scaling
+                const baseScale = Math.min(canvas.width, canvas.height) / 400;
+                const planeWidth = planeImg.width * baseScale * 2;
+                const planeHeight = planeImg.height * baseScale * 2;
+                
+                // Add glow effect first (shadow)
+                ctx.shadowBlur = 30;
+                ctx.shadowColor = '#00ffff';
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                
+                // Draw plane with glow
+                ctx.drawImage(
+                    planeImg,
+                    -planeWidth / 2,
+                    -planeHeight / 2,
+                    planeWidth,
+                    planeHeight
+                );
+                
+                // Reset shadow
+                ctx.shadowBlur = 0;
+                
+                // Draw plane again without glow for crisp edges
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.drawImage(
+                    planeImg,
+                    -planeWidth / 2,
+                    -planeHeight / 2,
+                    planeWidth,
+                    planeHeight
+                );
+                
+                ctx.restore();
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Start animation when image loads
+        planeImg.onload = () => {
+            animate();
+        };
+        
+        // Handle clicks and keypresses to exit
+        let exitTimeout;
+        function scheduleExit() {
+            clearTimeout(exitTimeout);
+            exitTimeout = setTimeout(() => {
+                // Try to close window, or go back if that fails
+                if (window.opener) {
+                    window.close();
+                } else {
+                    // If can't close, at least show a message
+                    document.body.style.cursor = 'default';
+                    const msg = document.createElement('div');
+                    msg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);color:#0f0;font-size:24px;z-index:10000;text-shadow:0 0 10px #0f0;';
+                    msg.textContent = 'Press ESC or click to exit';
+                    document.body.appendChild(msg);
+                    setTimeout(() => msg.remove(), 2000);
+                }
+            }, 100);
+        }
+        
+        document.addEventListener('click', scheduleExit);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' || e.key === 'Enter') {
+                if (window.opener) {
+                    window.close();
+                } else {
+                    window.history.back();
+                }
+            }
+        });
+        
+        // Prevent context menu
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
+        
+        // Request fullscreen on load (user interaction required)
+        document.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                canvas.requestFullscreen().catch(err => {
+                    console.log('Fullscreen not available:', err);
+                });
+            }
+        }, { once: true });
+        
+        // Start animation even if image fails to load
+        setTimeout(() => {
+            if (!planeImg.complete) {
+                animate();
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
